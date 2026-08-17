@@ -29,6 +29,13 @@ fi
 PROJECT="$FOLDER/src"
 [ -d "$PROJECT" ] || { echo "✗ No src/ folder in $FOLDER — nothing to ship." >&2; exit 1; }
 
+# An untouched src/ holds only .gitkeep. Don't create an empty repo for a day
+# that hasn't been built yet.
+if [ ! -d "$PROJECT/.git" ]; then
+  REAL_FILES=$(find "$PROJECT" -type f ! -name '.gitkeep' | head -1)
+  [ -n "$REAL_FILES" ] || { echo "✗ $(basename "$FOLDER")/src is empty — build something first." >&2; exit 1; }
+fi
+
 # Repo name: day-01-url-shortener -> url-shortener
 REPO_NAME=$(basename "$FOLDER" | sed 's/^day-[0-9-]*//')
 DAY_LABEL=$(basename "$FOLDER" | grep -o '^day-[0-9]*' | sed 's/day-//')

@@ -3,7 +3,7 @@
 | Day | Project | Stack | Hours | Shipped | Repo | Live | Hardest bug |
 |-----|---------|-------|-------|---------|------|------|-------------|
 | 1 | URL shortener | FastAPI + SQLAlchemy | | ☑ | url-shortener | | Fake 678x benchmark — was timing the cache's fallback path, not a real hit |
-| 2 | Markdown notes | | | ☐ | | | |
+| 2 | Markdown notes | React + TS + IndexedDB | | ☑ | markdown-notes | | Tag pill and note excerpt both matched the same test query |
 | 3 | CLI expense tracker | | | ☐ | | | |
 | 4 | Weather dashboard | | | ☐ | | | |
 | 5 | Scraper + digest | | | ☐ | | | |
@@ -31,7 +31,7 @@
 
 ## Streak
 
-Week 1: ☑☐☐☐☐☐☐
+Week 1: ☑☑☐☐☐☐☐
 Week 2: ☐☐☐☐☐☐☐
 Week 3: ☐☐☐☐☐☐☐
 Week 4: ☐☐☐☐☐☐☐☐☐

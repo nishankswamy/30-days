@@ -1,71 +1,91 @@
 # 30-Day Projects Challenge
 
-**Started:** 17 Aug 2026 · **Ends:** 15 Sep 2026
-**Profile:** Intermediate · Mixed stack · 3–4 hrs/day · Goal: portfolio + hiring
+**Security engineering and data analytics, at depth.**
 
-Each folder has a `README.md` with the day's spec, a checklist, and a log section to fill in.
-Build in `src/`, keep scratch thinking in `notes/`.
+Ten projects across 30 days, most spanning three days. Fewer, harder things
+rather than thirty small ones — the projects that get someone hired are the ones
+you can talk about for twenty minutes, and you can't do that with a weekend CRUD
+app.
+
+## The shape of it
+
+| Days | Project | Track |
+|---|---|---|
+| 1 | [URL shortener with click analytics](day-01-url-shortener-analytics) | warm-up ✅ |
+| 2–4 | [Applied cryptography and a secrets vault](day-02-04-applied-cryptography) | security |
+| 5–7 | [Detection engineering pipeline](day-05-07-detection-engineering) | security + analytics |
+| 8–10 | [Columnar analytics engine](day-08-10-columnar-query-engine) | analytics |
+| 11–13 | [Anomaly detection on security telemetry](day-11-13-anomaly-detection) | security + analytics |
+| 14–16 | [Network traffic analysis](day-14-16-network-traffic-analysis) | security |
+| 17–19 | [Streaming pipeline with exactly-once semantics](day-17-19-streaming-pipeline) | analytics |
+| 20–22 | [Privacy-preserving analytics](day-20-22-differential-privacy) | security + analytics |
+| 23–26 | [CAPSTONE — Security data platform](day-23-26-siem-capstone) | capstone |
+| 27–29 | [CAPSTONE — Analytics platform](day-27-29-analytics-capstone) | capstone |
+| 30 | [Portfolio and writeup](day-30-portfolio) | capstone |
+
+Everything is defensive: detection, analysis, hardening, cryptography, privacy.
+Nothing here is offensive tooling, and the two places you attack something you
+attack your own work — a timing side channel in your own HMAC, and
+re-identification of a synthetic dataset you generated. That's how these
+techniques are taught, and it's the half that's actually employable.
+
+## Why three days per project
+
+One day gets you a working thing. The third day is where you measure it, find
+the result that contradicts what you assumed, and write that down. Day 1's
+benchmark reported a 678x speedup that turned out to be timing a fallback path —
+that finding is worth more than the feature it was measuring, and there was no
+version of a one-day schedule that would have surfaced it.
+
+Rough shape of each block:
+
+1. **Day one** — build the core. It should work by the end of the day.
+2. **Day two** — the hard half. The part you'd skip if you were rushing.
+3. **Day three** — measure, break, tune, and write. No new features.
 
 ## Ground rules
 
-1. **Ship daily.** Deployed URL or working CLI + README. Unfinished at hour 4 → cut scope, ship what works, note the gap.
-2. **One repo per project**, all linked from this folder's `PROGRESS.md`.
-3. **README every time:** what it does · 30s demo GIF · why · architecture note · what I'd do differently.
-4. **Tests from Week 3 on.** Recruiters skim, engineers read tests.
-5. **Buffer days (7, 14, 21, 28) are not new builds.** Catch up, deploy, write.
-6. **Log daily.** Three lines on what broke and how you fixed it — that becomes your interview stories.
+1. **Every project produces a number.** A benchmark, a precision/recall table, a
+   utility curve. "It works" is not a result.
+2. **Report findings that embarrass you.** The statistical baseline beating your
+   ML model is a better README than one that hides it.
+3. **Answer the depth questions in writing.** Each project's README has them.
+   They're what an interviewer would ask, and writing the answers is how you
+   find the parts you only half know.
+4. **Commit as you go**, with the *why* in the commit body.
+5. **No secrets, no real customer data, no `.env` in git.** Generate synthetic
+   data — every project here is designed so you can.
 
 ## Cut-scope rules when you're behind
 
-| Feature | Fallback |
+| | Fallback |
 |---|---|
-| Auth | Magic link, or one hardcoded user |
-| Payments | Stripe test mode only |
-| Deploy | Railway / Fly / Vercel — never hand-rolled infra |
-| Design | One component library, one accent colour, done |
-| **Never cut** | README, demo GIF, deploy |
+| Scale | Smaller dataset. Never a smaller evaluation. |
+| Breadth | Fewer detection rules, fewer encodings, fewer window types |
+| Polish | Skip the UI, keep the CLI |
+| **Never cut** | The measurement, the README, the depth answers |
 
-## The weeks
+Each project's README has its own specific cut rule at the bottom.
 
-| Week | Days | Theme | Why |
-|---|---|---|---|
-| 1 | 1–7 | Fundamentals, fast reps | Rebuild confidence, automate your deploy pipeline |
-| 2 | 8–14 | AI / LLM | The resume differentiator right now — with real evals, not vibes |
-| 3 | 15–21 | Systems depth | What separates you from bootcamp portfolios |
-| 4 | 22–30 | Capstones | Two substantial products, an OSS PR, and the portfolio site |
+## Daily
 
-## The 30 days
+```bash
+./scripts/ship-day.sh 2                     # first push: creates the repo
+./scripts/ship-day.sh 3 "Add the vault"     # later pushes
+./scripts/status.sh                         # what's committed and pushed
+```
 
-**Week 1 — Fundamentals**
-1. URL shortener with analytics
-2. Markdown notes app with full-text search
-3. CLI expense tracker
-4. Weather dashboard, done properly
-5. Web scraper + daily email digest
-6. Real-time chat
-7. *Buffer — deploy & document*
+Any day inside a range resolves to the right project — `2`, `3` and `4` all find
+the cryptography folder. See [GIT.md](GIT.md).
 
-**Week 2 — AI / LLM**
-8. RAG over your own documents
-9. Structured extraction service
-10. Agent with tools (no framework)
-11. Semantic search engine
-12. LLM eval harness
-13. Voice-to-action tool
-14. *Buffer — deploy & write*
+## Prerequisites worth having ready
 
-**Week 3 — Systems**
-15. HTTP server from scratch
-16. Key-value store with persistence
-17. Job queue
-18. Rate limiter service
-19. Mini database query engine
-20. Observability stack
-21. *Buffer — tests & refactor*
+Python with numpy, pandas, scikit-learn, and cryptography. Docker for Kafka and
+Postgres later on. `tshark` or scapy from Day 14. None of it needs installing
+until the project that uses it.
 
-**Week 4 — Capstones**
-22–24. Capstone A: full product
-25–27. Capstone B: AI product with a moat
-28. *Buffer — polish*
-29. Open source contribution
-30. Portfolio site + writeup
+## Archive
+
+`archive/` holds the markdown notes app built on the original Day 2, before the
+challenge was reweighted toward security and analytics. Its git history is
+intact.

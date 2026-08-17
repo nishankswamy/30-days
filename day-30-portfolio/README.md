@@ -1,43 +1,56 @@
-# Day 30 — Portfolio Site + Writeup
+# Days 30 — Portfolio and Writeup
 
-> **Week 4** · Package 30 days into something a recruiter reads in 90 seconds.
+> **Track:** capstone
 
-## Stack
-Your own site, your own domain
+Package it so someone decides in ninety seconds that you're worth interviewing.
 
-## Build this
-- Six best projects with case studies: problem, approach, tradeoff, result
-- The daily log distilled into a 'what 30 days taught me' post
-- Resume updated with the three strongest projects
-- Index repo finished and pinned on GitHub
-- LinkedIn and GitHub profile updated
+## Concepts
 
-## Stretch goals
-- Short video walkthrough of your two capstones
-- Post the retrospective publicly
+- Case study writing
+- Technical communication
 
-## If you're running out of time
-Four projects instead of six.
+## Build
+
+Case studies for the five strongest projects: problem, approach, tradeoff, measured result.
+
+One deep technical post — the DP re-identification demo or the columnar benchmark are the strongest candidates.
+
+Resume rewritten around measured outcomes, not technology lists.
+
+Index repo finished and pinned; LinkedIn and GitHub profiles updated.
+
+## Depth questions
+
+Answer these in the README when you're done. They're what an interviewer would
+ask, and writing the answers down is how you find the parts you only half know.
+
+1. Which single project best demonstrates that you measure things rather than assume them?
 
 ## Done when
+
 Live portfolio site
+
+## If you're running out of time
+
+Four case studies instead of five.
 
 ---
 
 ## Checklist
-- [ ] Core features working
-- [ ] Deployed / installable
-- [ ] README written (what · demo GIF · why · architecture · what I'd change)
-- [ ] Demo GIF or screenshot recorded
-- [ ] Pushed to its own repo
-- [ ] Logged in `PROGRESS.md` at the root
+
+- [ ] Core built and working
+- [ ] Tests covering the logic that matters
+- [ ] Benchmark or evaluation with real numbers
+- [ ] README: what it does, how it works, what the numbers say
+- [ ] Depth questions answered in writing
+- [ ] Committed and pushed
 
 ## Log
 
-**Hours spent:**
+**Hours:**
 
-**Hardest bug:**
+**Hardest part:**
 
-**What I'd do differently:**
+**What surprised me:**
 
-**Interview story from today:**
+**Interview story:**

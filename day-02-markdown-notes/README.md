@@ -40,3 +40,28 @@ Deployed app + demo GIF
 **What I'd do differently:**
 
 **Interview story from today:**
+
+---
+
+## Day 2 outcome
+
+**Shipped:** working app, 87 tests, benchmark, sample content.
+
+**Core done:**
+- [x] Live markdown preview, split pane
+- [x] Tag system with filter
+- [x] Full-text search across all notes
+- [x] Keyboard shortcuts for everything
+
+**Stretch done:**
+- [x] Own ranking rather than a library — BM25, benchmarked against substring
+- [x] Export the vault as a zip — hand-rolled writer, no dependency
+
+**Still to do:** record the demo GIF (see `src/docs/DEMO.md`), deploy the static
+build, fill in "What I'd do differently".
+
+**The interview story:** substring search and BM25 both "work". The benchmark
+made the difference concrete — querying `kafka` over 5,000 notes, substring
+filtering returned three notes about Kubernetes, Redis and Rust, because all it
+can answer is whether the word appears. Ranking is the feature; matching is the
+easy part.

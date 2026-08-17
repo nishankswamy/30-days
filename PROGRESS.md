@@ -1,41 +1,45 @@
-# Progress Log
+# Progress
 
-| Day | Project | Stack | Hours | Shipped | Repo | Live | Hardest bug |
-|-----|---------|-------|-------|---------|------|------|-------------|
-| 1 | URL shortener | FastAPI + SQLAlchemy | | ☑ | url-shortener | | Fake 678x benchmark — was timing the cache's fallback path, not a real hit |
-| 2 | Markdown notes | React + TS + IndexedDB | | ☑ | markdown-notes | | Tag pill and note excerpt both matched the same test query |
-| 3 | CLI expense tracker | | | ☐ | | | |
-| 4 | Weather dashboard | | | ☐ | | | |
-| 5 | Scraper + digest | | | ☐ | | | |
-| 6 | Real-time chat | | | ☐ | | | |
-| 7 | *Buffer* | — | | ☐ | — | — | — |
-| 8 | RAG over documents | | | ☐ | | | |
-| 9 | Structured extraction | | | ☐ | | | |
-| 10 | Agent with tools | | | ☐ | | | |
-| 11 | Semantic search | | | ☐ | | | |
-| 12 | LLM eval harness | | | ☐ | | | |
-| 13 | Voice-to-action | | | ☐ | | | |
-| 14 | *Buffer* | — | | ☐ | — | — | — |
-| 15 | HTTP server | | | ☐ | | | |
-| 16 | KV store | | | ☐ | | | |
-| 17 | Job queue | | | ☐ | | | |
-| 18 | Rate limiter | | | ☐ | | | |
-| 19 | Query engine | | | ☐ | | | |
-| 20 | Observability | | | ☐ | | | |
-| 21 | *Buffer* | — | | ☐ | — | — | — |
-| 22–24 | Capstone A | | | ☐ | | | |
-| 25–27 | Capstone B | | | ☐ | | | |
-| 28 | *Buffer* | — | | ☐ | — | — | — |
-| 29 | Open source PR | | | ☐ | | | |
-| 30 | Portfolio site | | | ☐ | | | |
+| Days | Project | Shipped | Repo | Key number | Hardest part |
+|---|---|---|---|---|---|
+| 1 | URL shortener + analytics | ☑ | url-shortener | cache 1.1x, not 678x | Benchmark was timing the fallback path |
+| 2–4 | Applied cryptography | ☐ | | | |
+| 5–7 | Detection engineering | ☐ | | | |
+| 8–10 | Columnar query engine | ☐ | | | |
+| 11–13 | Anomaly detection | ☐ | | | |
+| 14–16 | Network traffic analysis | ☐ | | | |
+| 17–19 | Streaming pipeline | ☐ | | | |
+| 20–22 | Differential privacy | ☐ | | | |
+| 23–26 | CAPSTONE: security platform | ☐ | | | |
+| 27–29 | CAPSTONE: analytics platform | ☐ | | | |
+| 30 | Portfolio | ☐ | | | |
 
-## Streak
+## Days
 
-Week 1: ☑☑☐☐☐☐☐
-Week 2: ☐☐☐☐☐☐☐
-Week 3: ☐☐☐☐☐☐☐
-Week 4: ☐☐☐☐☐☐☐☐☐
+```
+ 1 ▓   2 ░   3 ░   4 ░   5 ░   6 ░   7 ░   8 ░   9 ░  10 ░
+11 ░  12 ░  13 ░  14 ░  15 ░  16 ░  17 ░  18 ░  19 ░  20 ░
+21 ░  22 ░  23 ░  24 ░  25 ░  26 ░  27 ░  28 ░  29 ░  30 ░
+```
 
-## Retrospective notes
+## Findings worth keeping
 
-_Anything worth remembering for the Day 30 writeup._
+Things that turned out differently from what you assumed. This becomes the
+Day 30 writeup, and most of your interview answers.
+
+- **Day 1** — the Redis cache benchmark reported a 678x speedup. It was timing
+  the cache's graceful-degradation path, which returns `None` in nanoseconds
+  when Redis is unreachable. Real figure: 1.1x. A result that flatters the
+  design is the one to distrust.
+
+## Depth questions answered
+
+Tick when the project README has written answers, not just working code.
+
+- [ ] Days 2–4 — cryptography
+- [ ] Days 5–7 — detection
+- [ ] Days 8–10 — columnar
+- [ ] Days 11–13 — anomaly detection
+- [ ] Days 14–16 — traffic analysis
+- [ ] Days 17–19 — streaming
+- [ ] Days 20–22 — privacy

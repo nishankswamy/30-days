@@ -1,8 +1,11 @@
 # Git workflow
 
-One repo per project. Each day's repo lives in `day-NN-*/src/` — that folder is
-the repo root, so a clone gives someone `app/`, `tests/`, `README.md` at the top
-level with no wrapper directory.
+One repo per project. Each repo lives in `day-NN-MM-*/src/` — that folder is the
+repo root, so a clone gives someone the project at the top level with no wrapper
+directory.
+
+Projects span several days, and `ship-day.sh` accepts any day inside the range:
+`2`, `3` and `4` all resolve to the cryptography project.
 
 The challenge folder itself is a separate index repo tracking `README.md`,
 `PROGRESS.md`, and the day specs. The `src/` folders are gitignored there so the
@@ -13,13 +16,13 @@ nested repos don't collide.
 ```bash
 cd ~/Desktop/30-Day-Projects-Challenge
 
-./scripts/ship-day.sh 01                          # first push: creates the repo
-./scripts/ship-day.sh 01 "Add Redis cache layer"  # later pushes
-./scripts/status.sh                               # what's committed, dirty, pushed
+./scripts/ship-day.sh 2                        # first push: creates the repo
+./scripts/ship-day.sh 3 "Add the vault CLI"    # later pushes
+./scripts/status.sh                            # what's committed, dirty, pushed
 ```
 
-`ship-day.sh` names the repo from the folder — `day-01-url-shortener` becomes
-`url-shortener`. Set `REPO_VISIBILITY=private` if you'd rather not publish a
+`ship-day.sh` names the repo from the folder — `day-02-04-applied-cryptography`
+becomes `applied-cryptography`. Set `REPO_VISIBILITY=private` if you'd rather not publish a
 work-in-progress.
 
 ## One-time setup

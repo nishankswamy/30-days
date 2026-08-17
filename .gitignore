@@ -1,6 +1,8 @@
-# Each day's project is its own repo — don't track them here.
+# Each project is its own repo — don't track them here.
 day-*/src/
 day-*/notes/
+archive/
 
 .DS_Store
 __pycache__/
+node_modules/

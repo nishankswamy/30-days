@@ -2,6 +2,8 @@
 
 **Security engineering and data analytics, at depth.**
 
+> Current progress and the findings so far: [STATUS.md](STATUS.md).
+
 Ten projects across 30 days, most spanning three days. Fewer, harder things
 rather than thirty small ones — the projects that get someone hired are the ones
 you can talk about for twenty minutes, and you can't do that with a weekend CRUD

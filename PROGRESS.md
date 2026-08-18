@@ -3,7 +3,7 @@
 | Days | Project | Shipped | Repo | Key number | Hardest part |
 |---|---|---|---|---|---|
 | 1 | URL shortener + analytics | ☑ | url-shortener | cache 1.1x, not 678x | Benchmark was timing the fallback path |
-| 2–4 | Applied cryptography | days 2–3 ☑ | applied-cryptography | rotation crypto flat (4.1→8.9ms) but total 1.5s | The storage format defeating the key hierarchy |
+| 2–4 | Applied cryptography | ☑ done | applied-cryptography | timing leak 8.5σ vs 0.2σ; nonce reuse recovers both plaintexts | Interleaving to pull signal from timing noise |
 | 5–7 | Detection engineering | ☐ | | | |
 | 8–10 | Columnar query engine | ☐ | | | |
 | 11–13 | Anomaly detection | ☐ | | | |
@@ -17,7 +17,7 @@
 ## Days
 
 ```
- 1 ▓   2 ▓   3 ▓   4 ░   5 ░   6 ░   7 ░   8 ░   9 ░  10 ░
+ 1 ▓   2 ▓   3 ▓   4 ▓   5 ░   6 ░   7 ░   8 ░   9 ░  10 ░
 11 ░  12 ░  13 ░  14 ░  15 ░  16 ░  17 ░  18 ░  19 ░  20 ░
 21 ░  22 ░  23 ░  24 ░  25 ░  26 ░  27 ░  28 ░  29 ░  30 ░
 ```
@@ -26,6 +26,13 @@
 
 Things that turned out differently from what you assumed. This becomes the
 Day 30 writeup, and most of your interview answers.
+
+- **Day 4** — a byte-by-byte comparison leaks its secret through timing: the
+  early return encodes how many leading bytes matched. Recovered an 8-byte tag
+  at 8.5σ confidence; constant-time comparison leaked 0.2σ and the attack
+  became blind guessing. Separately, reusing a nonce once gives `c1 XOR c2 =
+  p1 XOR p2` — the key cancels and both plaintexts fall out. Neither is subtle
+  once you see it; both are one line of code to get wrong.
 
 - **Day 3** — envelope encryption is supposed to make key rotation flat in
   secret size, and the *crypto* is: 4.1 ms to 8.9 ms while the data grows
@@ -49,7 +56,7 @@ Day 30 writeup, and most of your interview answers.
 
 Tick when the project README has written answers, not just working code.
 
-- [ ] Days 2–4 — cryptography
+- [x] Days 2–4 — cryptography
 - [ ] Days 5–7 — detection
 - [ ] Days 8–10 — columnar
 - [ ] Days 11–13 — anomaly detection

@@ -4,7 +4,7 @@
 |---|---|---|---|---|---|
 | 1 | URL shortener + analytics | ☑ | url-shortener | cache 1.1x, not 678x | Benchmark was timing the fallback path |
 | 2–4 | Applied cryptography | ☑ done | applied-cryptography | timing leak 8.5σ vs 0.2σ; nonce reuse recovers both plaintexts | Interleaving to pull signal from timing noise |
-| 5–7 | Detection engineering | ☐ | | | |
+| 5–7 | Detection engineering | ☑ done | detection-engineering | tuning: 0%→100% precision, recall unchanged | One 'low-noise' rule sinking the whole queue |
 | 8–10 | Columnar query engine | ☐ | | | |
 | 11–13 | Anomaly detection | ☐ | | | |
 | 14–16 | Network traffic analysis | ☐ | | | |
@@ -17,7 +17,7 @@
 ## Days
 
 ```
- 1 ▓   2 ▓   3 ▓   4 ▓   5 ░   6 ░   7 ░   8 ░   9 ░  10 ░
+ 1 ▓   2 ▓   3 ▓   4 ▓   5 ▓   6 ▓   7 ▓   8 ░   9 ░  10 ░
 11 ░  12 ░  13 ░  14 ░  15 ░  16 ░  17 ░  18 ░  19 ░  20 ░
 21 ░  22 ░  23 ░  24 ░  25 ░  26 ░  27 ░  28 ░  29 ░  30 ░
 ```
@@ -26,6 +26,14 @@
 
 Things that turned out differently from what you assumed. This becomes the
 Day 30 writeup, and most of your interview answers.
+
+- **Days 5–7** — a rule labelled "informational, low-noise" in its own file
+  was the single worst thing in the alert queue: it fired on all 3,662
+  successful logins (one real) and sank overall precision to 0% while every
+  threshold rule sat at 100%. Suppressing it from alerting and feeding it into
+  a correlation rule instead took precision 0%→100% with recall unchanged at
+  100%. The base-rate fallacy made concrete: when attacks are 0.76% of events,
+  a rule on common events is useless however low-noise it looks alone.
 
 - **Day 4** — a byte-by-byte comparison leaks its secret through timing: the
   early return encodes how many leading bytes matched. Recovered an 8-byte tag
@@ -57,7 +65,7 @@ Day 30 writeup, and most of your interview answers.
 Tick when the project README has written answers, not just working code.
 
 - [x] Days 2–4 — cryptography
-- [ ] Days 5–7 — detection
+- [x] Days 5–7 — detection
 - [ ] Days 8–10 — columnar
 - [ ] Days 11–13 — anomaly detection
 - [ ] Days 14–16 — traffic analysis

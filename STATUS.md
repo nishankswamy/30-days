@@ -1,6 +1,6 @@
 # Status
 
-_Last updated after Days 1–4._
+_Last updated after Days 1–7._
 
 Four days shipped, two projects complete. This file is the quick snapshot; each
 project's own README has the depth, and `PROGRESS.md` tracks the day grid.
@@ -11,7 +11,8 @@ project's own README has the depth, and `PROGRESS.md` tracks the day grid.
 |---|---|---|---|---|
 | 1 | URL shortener with analytics | ✅ shipped | 66 | `url-shortener` |
 | 2–4 | Applied cryptography | ✅ complete | 493 | `applied-cryptography` |
-| 5–7 | Detection engineering | ⏭ next | — | — |
+| 5–7 | Detection engineering | ✅ complete | 36 | `detection-engineering` |
+| 8–10 | Columnar analytics engine | ⏭ next | — | — |
 
 Everything after Day 7 is scoped in the folder READMEs but not started.
 
@@ -48,9 +49,16 @@ Recovered an 8-byte tag at 8.5σ; constant-time comparison leaked 0.2σ and the
 attack collapsed to guessing. And one reused nonce gives `c1 XOR c2 = p1 XOR p2`
 — the key cancels and both plaintexts fall out.
 
+**Days 5–7 — a "low-noise" rule that sank the queue.** A detection labelled
+informational fired on all 3,662 successful logins (one real) and dragged overall
+precision to 0% while every real rule sat at 100%. Suppressing it from alerting
+and feeding it to a correlation rule instead — successful login from an IP that
+was just brute-forcing — took precision 0%→100% with recall unchanged. The
+base-rate fallacy, measured: rare attacks make a common-event rule useless.
+
 ## By the numbers
 
-- **559 tests** across the two finished projects (66 + 493)
+- **595 tests** across the three finished projects (66 + 493 + 36)
 - **~1,400 lines** in the cryptography project alone, across primitives, a
   vault, and three attacks
 - Every project ships with a benchmark or evaluation, not just "it works"
@@ -72,8 +80,8 @@ If `gh` isn't set up yet: `brew install gh && gh auth login` once.
 
 ## Next
 
-**Days 5–7 — detection engineering pipeline.** Parse real log formats into a
-common schema, build a Sigma rule engine with time-window aggregation, and — the
-actual point — measure detection quality with precision and recall on a labelled
-dataset. The finding to chase: what a 95%-precision rule does to an analyst when
-there are 10,000 benign events per attack.
+**Days 8–10 — columnar analytics engine.** A columnar storage format with
+dictionary/RLE/bit-packing compression, a vectorised query engine, and zone maps
+that skip whole chunks. Benchmarked against pandas and DuckDB on the same query.
+The finding to chase: which query shape pandas wins, and by how much DuckDB beats
+a hand-rolled engine.

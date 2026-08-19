@@ -2,7 +2,7 @@
 
 _Last updated after Days 1–7._
 
-Four days shipped, two projects complete. This file is the quick snapshot; each
+Seven days shipped, three projects complete. This file is the quick snapshot; each
 project's own README has the depth, and `PROGRESS.md` tracks the day grid.
 
 ## What's built
@@ -19,7 +19,7 @@ Everything after Day 7 is scoped in the folder READMEs but not started.
 ## The findings so far
 
 The point of the challenge is the third-day writeup — the result that
-contradicts what you assumed. Three of those are now on the board, and they're
+contradicts what you assumed. Four of those are now on the board, and they're
 the interview material:
 
 **Day 1 — a benchmark that lied.** The Redis cache reported a 678x speedup. It

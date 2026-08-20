@@ -1,8 +1,8 @@
 # Status
 
-_Last updated after Days 1–7._
+_Last updated after Days 1–10._
 
-Seven days shipped, three projects complete. This file is the quick snapshot; each
+Ten days shipped, four projects complete. This file is the quick snapshot; each
 project's own README has the depth, and `PROGRESS.md` tracks the day grid.
 
 ## What's built
@@ -12,14 +12,15 @@ project's own README has the depth, and `PROGRESS.md` tracks the day grid.
 | 1 | URL shortener with analytics | ✅ shipped | 66 | `url-shortener` |
 | 2–4 | Applied cryptography | ✅ complete | 493 | `applied-cryptography` |
 | 5–7 | Detection engineering | ✅ complete | 36 | `detection-engineering` |
-| 8–10 | Columnar analytics engine | ⏭ next | — | — |
+| 8–10 | Columnar analytics engine | ✅ complete | 33 | `columnar-query-engine` |
+| 11–13 | Anomaly detection on telemetry | ⏭ next | — | — |
 
 Everything after Day 7 is scoped in the folder READMEs but not started.
 
 ## The findings so far
 
 The point of the challenge is the third-day writeup — the result that
-contradicts what you assumed. Four of those are now on the board, and they're
+contradicts what you assumed. Five of those are now on the board, and they're
 the interview material:
 
 **Day 1 — a benchmark that lied.** The Redis cache reported a 678x speedup. It
@@ -56,9 +57,15 @@ and feeding it to a correlation rule instead — successful login from an IP tha
 was just brute-forcing — took precision 0%→100% with recall unchanged. The
 base-rate fallacy, measured: rare attacks make a common-event rule useless.
 
+**Days 8–10 — "columnar is faster" is conditional.** At 2M rows in memory, pandas
+beat the hand-rolled columnar engine on two of three queries. Columnar wins pay
+off against I/O and selectivity, not small in-memory scans. Zone maps were the
+optimisation that earned its keep (1.8x, skipping 235/245 chunks); DuckDB was 10x
+ahead on the full aggregate, which says exactly what to build next.
+
 ## By the numbers
 
-- **595 tests** across the three finished projects (66 + 493 + 36)
+- **628 tests** across the four finished projects (66 + 493 + 36 + 33)
 - **~1,400 lines** in the cryptography project alone, across primitives, a
   vault, and three attacks
 - Every project ships with a benchmark or evaluation, not just "it works"
@@ -80,8 +87,8 @@ If `gh` isn't set up yet: `brew install gh && gh auth login` once.
 
 ## Next
 
-**Days 8–10 — columnar analytics engine.** A columnar storage format with
-dictionary/RLE/bit-packing compression, a vectorised query engine, and zone maps
-that skip whole chunks. Benchmarked against pandas and DuckDB on the same query.
-The finding to chase: which query shape pandas wins, and by how much DuckDB beats
-a hand-rolled engine.
+**Days 11–13 — anomaly detection on security telemetry.** Statistical baselines
+(STL seasonal decomposition, EWMA control charts, MAD thresholds), then Isolation
+Forest and an autoencoder, evaluated at a realistic base rate with precision-recall
+rather than ROC. The finding to chase: whether the ML model actually beats the
+statistical baseline — and reporting it either way.

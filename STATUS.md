@@ -12,7 +12,7 @@ project's own README has the depth, and `PROGRESS.md` tracks the day grid.
 | 1 | URL shortener with analytics | ✅ shipped | 66 | `url-shortener` |
 | 2–4 | Applied cryptography | ✅ complete | 493 | `applied-cryptography` |
 | 5–7 | Detection engineering | ✅ complete | 36 | `detection-engineering` |
-| 8–10 | Columnar analytics engine | ✅ complete | 33 | `columnar-query-engine` |
+| 8–10 | Columnar analytics engine | ✅ complete+ | 54 | `columnar-query-engine` |
 | 11–13 | Anomaly detection on telemetry | ⏭ next | — | — |
 
 Everything after Day 7 is scoped in the folder READMEs but not started.
@@ -57,15 +57,20 @@ and feeding it to a correlation rule instead — successful login from an IP tha
 was just brute-forcing — took precision 0%→100% with recall unchanged. The
 base-rate fallacy, measured: rare attacks make a common-event rule useless.
 
-**Days 8–10 — "columnar is faster" is conditional.** At 2M rows in memory, pandas
-beat the hand-rolled columnar engine on two of three queries. Columnar wins pay
-off against I/O and selectivity, not small in-memory scans. Zone maps were the
-optimisation that earned its keep (1.8x, skipping 235/245 chunks); DuckDB was 10x
-ahead on the full aggregate, which says exactly what to build next.
+**Days 8–10 — "columnar is faster" is conditional, and Python has a ceiling.** At
+2M rows in memory, pandas beat the hand-rolled engine on two of three queries —
+columnar wins pay off against I/O and selectivity, not small in-memory scans. A
+deep second pass then added persistence, a streaming aggregate (closed the DuckDB
+gap 10x→7.2x after profiling caught np.unique sorting strings), a hash join
+(30x→5x once the unique-key probe was vectorised), and query compilation (1.75x
+on global aggregates). The two honest negatives are the most useful: thread
+parallelism is GIL-capped and actually *regresses* past 2 workers, and
+compilation only helps specific query shapes. Both localise exactly why DuckDB is
+7x ahead — the GIL and native codegen, which no Python cleverness recovers.
 
 ## By the numbers
 
-- **628 tests** across the four finished projects (66 + 493 + 36 + 33)
+- **649 tests** across the four finished projects (66 + 493 + 36 + 54)
 - **~1,400 lines** in the cryptography project alone, across primitives, a
   vault, and three attacks
 - Every project ships with a benchmark or evaluation, not just "it works"

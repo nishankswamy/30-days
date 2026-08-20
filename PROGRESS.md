@@ -5,7 +5,7 @@
 | 1 | URL shortener + analytics | ☑ | url-shortener | cache 1.1x, not 678x | Benchmark was timing the fallback path |
 | 2–4 | Applied cryptography | ☑ done | applied-cryptography | timing leak 8.5σ vs 0.2σ; nonce reuse recovers both plaintexts | Interleaving to pull signal from timing noise |
 | 5–7 | Detection engineering | ☑ done | detection-engineering | tuning: 0%→100% precision, recall unchanged | One 'low-noise' rule sinking the whole queue |
-| 8–10 | Columnar query engine | ☑ done | columnar-query-engine | zone maps 1.8x; 10x behind DuckDB on full aggregate | Dictionary encoding silently stringifying ints |
+| 8–10 | Columnar query engine | ☑ done+ | columnar-query-engine | deep pass: streaming agg 10x→7.2x, join 30x→5x, GIL-capped parallelism | np.unique sorting strings; the GIL killing thread parallelism |
 | 11–13 | Anomaly detection | ☐ | | | |
 | 14–16 | Network traffic analysis | ☐ | | | |
 | 17–19 | Streaming pipeline | ☐ | | | |

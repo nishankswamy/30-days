@@ -5,7 +5,7 @@
 | 1 | URL shortener + analytics | ☑ | url-shortener | cache 1.1x, not 678x | Benchmark was timing the fallback path |
 | 2–4 | Applied cryptography | ☑ done | applied-cryptography | timing leak 8.5σ vs 0.2σ; nonce reuse recovers both plaintexts | Interleaving to pull signal from timing noise |
 | 5–7 | Detection engineering | ☑ done | detection-engineering | tuning: 0%→100% precision, recall unchanged | One 'low-noise' rule sinking the whole queue |
-| 8–10 | Columnar query engine | ☐ | | | |
+| 8–10 | Columnar query engine | ☑ done | columnar-query-engine | zone maps 1.8x; 10x behind DuckDB on full aggregate | Dictionary encoding silently stringifying ints |
 | 11–13 | Anomaly detection | ☐ | | | |
 | 14–16 | Network traffic analysis | ☐ | | | |
 | 17–19 | Streaming pipeline | ☐ | | | |
@@ -26,6 +26,15 @@
 
 Things that turned out differently from what you assumed. This becomes the
 Day 30 writeup, and most of your interview answers.
+
+- **Days 8–10** — everyone knows columnar is "faster", but at 2M rows in RAM
+  pandas beat the hand-rolled engine on two of three queries. Columnar wins pay
+  off against I/O and selectivity, not small in-memory scans. Zone maps were
+  the real optimisation (1.8x, skipping 235/245 chunks on a selective filter);
+  DuckDB was 10x ahead on the full-table aggregate, which localises the next
+  thing to build (parallel vectorised hash aggregation). Also caught a silent
+  bug: dictionary encoding stringified integers, so an int column round-tripped
+  to strings.
 
 - **Days 5–7** — a rule labelled "informational, low-noise" in its own file
   was the single worst thing in the alert queue: it fired on all 3,662
@@ -66,7 +75,7 @@ Tick when the project README has written answers, not just working code.
 
 - [x] Days 2–4 — cryptography
 - [x] Days 5–7 — detection
-- [ ] Days 8–10 — columnar
+- [x] Days 8–10 — columnar
 - [ ] Days 11–13 — anomaly detection
 - [ ] Days 14–16 — traffic analysis
 - [ ] Days 17–19 — streaming

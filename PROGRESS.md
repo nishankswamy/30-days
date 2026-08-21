@@ -6,7 +6,7 @@
 | 2–4 | Applied cryptography | ☑ done | applied-cryptography | timing leak 8.5σ vs 0.2σ; nonce reuse recovers both plaintexts | Interleaving to pull signal from timing noise |
 | 5–7 | Detection engineering | ☑ done | detection-engineering | tuning: 0%→100% precision, recall unchanged | One 'low-noise' rule sinking the whole queue |
 | 8–10 | Columnar query engine | ☑ done+ | columnar-query-engine | deep pass: streaming agg 10x→7.2x, join 30x→5x, GIL-capped parallelism | np.unique sorting strings; the GIL killing thread parallelism |
-| 11–13 | Anomaly detection | ☐ | | | |
+| 11–13 | Anomaly detection | ☑ done | anomaly-detection | autoencoder AP 0.249 > baseline 0.206; Isolation Forest 0.057 (worse) | Making a fair test of the multivariate/sustained cases |
 | 14–16 | Network traffic analysis | ☐ | | | |
 | 17–19 | Streaming pipeline | ☐ | | | |
 | 20–22 | Differential privacy | ☐ | | | |
@@ -26,6 +26,15 @@
 
 Things that turned out differently from what you assumed. This becomes the
 Day 30 writeup, and most of your interview answers.
+
+- **Days 11–13** — "use an ML model" is not a strategy. On seasonal security
+  telemetry at a 1.7% base rate: the autoencoder narrowly beat the STL+MAD
+  baseline (AP 0.249 vs 0.206), but *only* because it alone caught the purely
+  multivariate anomaly (normal marginals, broken login/request ratio) that a
+  univariate detector is structurally blind to. Isolation Forest — the obvious
+  ML pick — scored 0.057, worse than the simple baseline. And no point detector
+  caught the sustained low-and-slow shift. ML earns its place for structure the
+  baseline can't represent, and is a liability applied reflexively.
 
 - **Days 8–10** — everyone knows columnar is "faster", but at 2M rows in RAM
   pandas beat the hand-rolled engine on two of three queries. Columnar wins pay
@@ -76,7 +85,7 @@ Tick when the project README has written answers, not just working code.
 - [x] Days 2–4 — cryptography
 - [x] Days 5–7 — detection
 - [x] Days 8–10 — columnar
-- [ ] Days 11–13 — anomaly detection
+- [x] Days 11–13 — anomaly detection
 - [ ] Days 14–16 — traffic analysis
 - [ ] Days 17–19 — streaming
 - [ ] Days 20–22 — privacy

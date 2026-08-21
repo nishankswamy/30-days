@@ -1,8 +1,8 @@
 # Status
 
-_Last updated after Days 1–10._
+_Last updated after Days 1–13._
 
-Ten days shipped, four projects complete. This file is the quick snapshot; each
+Thirteen days shipped, five projects complete. This file is the quick snapshot; each
 project's own README has the depth, and `PROGRESS.md` tracks the day grid.
 
 ## What's built
@@ -13,14 +13,15 @@ project's own README has the depth, and `PROGRESS.md` tracks the day grid.
 | 2–4 | Applied cryptography | ✅ complete | 493 | `applied-cryptography` |
 | 5–7 | Detection engineering | ✅ complete | 36 | `detection-engineering` |
 | 8–10 | Columnar analytics engine | ✅ complete+ | 54 | `columnar-query-engine` |
-| 11–13 | Anomaly detection on telemetry | ⏭ next | — | — |
+| 11–13 | Anomaly detection on telemetry | ✅ complete | 21 | `anomaly-detection` |
+| 14–16 | Network traffic analysis | ⏭ next | — | — |
 
 Everything after Day 7 is scoped in the folder READMEs but not started.
 
 ## The findings so far
 
 The point of the challenge is the third-day writeup — the result that
-contradicts what you assumed. Five of those are now on the board, and they're
+contradicts what you assumed. Six of those are now on the board, and they're
 the interview material:
 
 **Day 1 — a benchmark that lied.** The Redis cache reported a 678x speedup. It
@@ -60,17 +61,24 @@ base-rate fallacy, measured: rare attacks make a common-event rule useless.
 **Days 8–10 — "columnar is faster" is conditional, and Python has a ceiling.** At
 2M rows in memory, pandas beat the hand-rolled engine on two of three queries —
 columnar wins pay off against I/O and selectivity, not small in-memory scans. A
-deep second pass then added persistence, a streaming aggregate (closed the DuckDB
-gap 10x→7.2x after profiling caught np.unique sorting strings), a hash join
-(30x→5x once the unique-key probe was vectorised), and query compilation (1.75x
-on global aggregates). The two honest negatives are the most useful: thread
-parallelism is GIL-capped and actually *regresses* past 2 workers, and
-compilation only helps specific query shapes. Both localise exactly why DuckDB is
-7x ahead — the GIL and native codegen, which no Python cleverness recovers.
+deep second pass added persistence, a streaming aggregate (10x→7.2x vs DuckDB
+after profiling caught np.unique sorting strings), a hash join (30x→5x once the
+unique-key probe was vectorised), and query compilation (1.75x on global
+aggregates). Two honest negatives: thread parallelism is GIL-capped and
+*regresses* past 2 workers; compilation only helps specific query shapes. Both
+localise why DuckDB is 7x ahead — the GIL and native codegen.
+
+**Days 11–13 — "use an ML model" is not a strategy.** On seasonal security
+telemetry at a 1.7% base rate, the autoencoder narrowly beat the STL+MAD baseline
+(AP 0.249 vs 0.206) — but only because it alone caught the purely multivariate
+anomaly (normal marginals, broken login/request ratio) a univariate detector
+can't see. Isolation Forest, the obvious ML pick, scored 0.057 — *worse* than the
+simple baseline. ML earns its place for structure the baseline can't represent,
+and is a liability applied reflexively.
 
 ## By the numbers
 
-- **649 tests** across the four finished projects (66 + 493 + 36 + 54)
+- **670 tests** across the five finished projects (66 + 493 + 36 + 54 + 21)
 - **~1,400 lines** in the cryptography project alone, across primitives, a
   vault, and three attacks
 - Every project ships with a benchmark or evaluation, not just "it works"
@@ -92,8 +100,8 @@ If `gh` isn't set up yet: `brew install gh && gh auth login` once.
 
 ## Next
 
-**Days 11–13 — anomaly detection on security telemetry.** Statistical baselines
-(STL seasonal decomposition, EWMA control charts, MAD thresholds), then Isolation
-Forest and an autoencoder, evaluated at a realistic base rate with precision-recall
-rather than ROC. The finding to chase: whether the ML model actually beats the
-statistical baseline — and reporting it either way.
+**Days 14–16 — network traffic analysis.** Parse pcap by hand, reconstruct flows,
+fingerprint TLS clients (JA3/JA4), and detect DNS tunnelling and C2 beaconing —
+all defensive, all on traffic you generate yourself. The finding to chase: the
+false-positive rate of beaconing detection against legitimately periodic traffic
+(NTP, update checks).

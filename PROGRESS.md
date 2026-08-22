@@ -7,7 +7,7 @@
 | 5–7 | Detection engineering | ☑ done | detection-engineering | tuning: 0%→100% precision, recall unchanged | One 'low-noise' rule sinking the whole queue |
 | 8–10 | Columnar query engine | ☑ done+ | columnar-query-engine | deep pass: streaming agg 10x→7.2x, join 30x→5x, GIL-capped parallelism | np.unique sorting strings; the GIL killing thread parallelism |
 | 11–13 | Anomaly detection | ☑ done | anomaly-detection | autoencoder AP 0.249 > baseline 0.206; Isolation Forest 0.057 (worse) | Making a fair test of the multivariate/sustained cases |
-| 14–16 | Network traffic analysis | ☐ | | | |
+| 14–16 | Network traffic analysis | ☑ done | network-traffic-analysis | beaconing: 19%→100% precision after dropping NTP; timing can't catch a 443-mimicking beacon | Canonicalising the 5-tuple direction |
 | 17–19 | Streaming pipeline | ☐ | | | |
 | 20–22 | Differential privacy | ☐ | | | |
 | 23–26 | CAPSTONE: security platform | ☐ | | | |
@@ -18,7 +18,7 @@
 
 ```
  1 ▓   2 ▓   3 ▓   4 ▓   5 ▓   6 ▓   7 ▓   8 ░   9 ░  10 ░
-11 ░  12 ░  13 ░  14 ░  15 ░  16 ░  17 ░  18 ░  19 ░  20 ░
+11 ░  12 ░  13 ░  14 ▓  15 ▓  16 ▓  17 ░  18 ░  19 ░  20 ░
 21 ░  22 ░  23 ░  24 ░  25 ░  26 ░  27 ░  28 ░  29 ░  30 ░
 ```
 
@@ -26,6 +26,15 @@
 
 Things that turned out differently from what you assumed. This becomes the
 Day 30 writeup, and most of your interview answers.
+
+- **Days 14–16** — a beaconing detector that flags NTP is worse than useless.
+  Timing alone (coefficient of variation) caught all 8 C2 beacons but also all
+  35 legitimate periodic flows — 19% precision — because NTP and update checks
+  are as periodic as any malware. Dropping service ports and requiring small
+  consistent payloads recovered 100% precision, but a beacon tuned to mimic
+  HTTPS on 443 stays invisible to network features alone: it needs destination
+  reputation. Also: JA3 is order-sensitive so Chrome's extension randomisation
+  broke it; JA4 sorts first and survives — both implemented to make it concrete.
 
 - **Days 11–13** — "use an ML model" is not a strategy. On seasonal security
   telemetry at a 1.7% base rate: the autoencoder narrowly beat the STL+MAD

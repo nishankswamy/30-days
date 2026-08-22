@@ -1,8 +1,8 @@
 # Status
 
-_Last updated after Days 1–13._
+_Last updated after Days 1–16._
 
-Thirteen days shipped, five projects complete. This file is the quick snapshot; each
+Sixteen days shipped, six projects complete. This file is the quick snapshot; each
 project's own README has the depth, and `PROGRESS.md` tracks the day grid.
 
 ## What's built
@@ -14,14 +14,15 @@ project's own README has the depth, and `PROGRESS.md` tracks the day grid.
 | 5–7 | Detection engineering | ✅ complete | 36 | `detection-engineering` |
 | 8–10 | Columnar analytics engine | ✅ complete+ | 54 | `columnar-query-engine` |
 | 11–13 | Anomaly detection on telemetry | ✅ complete | 21 | `anomaly-detection` |
-| 14–16 | Network traffic analysis | ⏭ next | — | — |
+| 14–16 | Network traffic analysis | ✅ complete | 39 | `network-traffic-analysis` |
+| 17–19 | Streaming pipeline (exactly-once) | ⏭ next | — | — |
 
 Everything after Day 7 is scoped in the folder READMEs but not started.
 
 ## The findings so far
 
 The point of the challenge is the third-day writeup — the result that
-contradicts what you assumed. Six of those are now on the board, and they're
+contradicts what you assumed. Seven of those are now on the board, and they're
 the interview material:
 
 **Day 1 — a benchmark that lied.** The Redis cache reported a 678x speedup. It
@@ -76,9 +77,16 @@ can't see. Isolation Forest, the obvious ML pick, scored 0.057 — *worse* than 
 simple baseline. ML earns its place for structure the baseline can't represent,
 and is a liability applied reflexively.
 
+**Days 14–16 — a beaconing detector that flags NTP is worse than useless.** C2
+malware and NTP are identically periodic, so a timing-only detector caught all 8
+beacons and all 35 legitimate periodic flows (19% precision). Dropping service
+ports + requiring small consistent payloads recovered 100% — but a beacon tuned
+to mimic HTTPS on 443 is invisible to network features alone and needs
+destination reputation. All built from raw pcap bytes, no scapy.
+
 ## By the numbers
 
-- **670 tests** across the five finished projects (66 + 493 + 36 + 54 + 21)
+- **709 tests** across the six finished projects (66 + 493 + 36 + 54 + 21 + 39)
 - **~1,400 lines** in the cryptography project alone, across primitives, a
   vault, and three attacks
 - Every project ships with a benchmark or evaluation, not just "it works"
@@ -100,8 +108,7 @@ If `gh` isn't set up yet: `brew install gh && gh auth login` once.
 
 ## Next
 
-**Days 14–16 — network traffic analysis.** Parse pcap by hand, reconstruct flows,
-fingerprint TLS clients (JA3/JA4), and detect DNS tunnelling and C2 beaconing —
-all defensive, all on traffic you generate yourself. The finding to chase: the
-false-positive rate of beaconing detection against legitimately periodic traffic
-(NTP, update checks).
+**Days 17–19 — streaming pipeline with exactly-once semantics.** An append-only
+partitioned log, event-time windowing with watermarks, and idempotent sinks —
+built at-least-once first to show duplicates, then made effectively-once. The
+finding to chase: what "exactly-once" actually guarantees, and where.

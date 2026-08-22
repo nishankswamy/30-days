@@ -8,7 +8,7 @@
 | 8–10 | Columnar query engine | ☑ done+ | columnar-query-engine | deep pass: streaming agg 10x→7.2x, join 30x→5x, GIL-capped parallelism | np.unique sorting strings; the GIL killing thread parallelism |
 | 11–13 | Anomaly detection | ☑ done | anomaly-detection | autoencoder AP 0.249 > baseline 0.206; Isolation Forest 0.057 (worse) | Making a fair test of the multivariate/sustained cases |
 | 14–16 | Network traffic analysis | ☑ done | network-traffic-analysis | beaconing: 19%→100% precision after dropping NTP; timing can't catch a 443-mimicking beacon | Canonicalising the 5-tuple direction |
-| 17–19 | Streaming pipeline | ☐ | | | |
+| 17–19 | Streaming pipeline | ☑ done | streaming-pipeline | chaos test: 8 seeds, crash-and-recover output identical to clean run | Where exactly-once actually ends (the sink boundary) |
 | 20–22 | Differential privacy | ☐ | | | |
 | 23–26 | CAPSTONE: security platform | ☐ | | | |
 | 27–29 | CAPSTONE: analytics platform | ☐ | | | |
@@ -18,7 +18,7 @@
 
 ```
  1 ▓   2 ▓   3 ▓   4 ▓   5 ▓   6 ▓   7 ▓   8 ░   9 ░  10 ░
-11 ░  12 ░  13 ░  14 ▓  15 ▓  16 ▓  17 ░  18 ░  19 ░  20 ░
+11 ░  12 ░  13 ░  14 ▓  15 ▓  16 ▓  17 ▓  18 ▓  19 ▓  20 ░
 21 ░  22 ░  23 ░  24 ░  25 ░  26 ░  27 ░  28 ░  29 ░  30 ░
 ```
 
@@ -26,6 +26,16 @@
 
 Things that turned out differently from what you assumed. This becomes the
 Day 30 writeup, and most of your interview answers.
+
+- **Days 17–19** — "exactly-once" is a phrase for a specific arrangement, not a
+  delivery guarantee. Built at-least-once first so the duplicate is visible
+  (crash before offset commit replays the batch), then made effectively-once
+  with an idempotent sink keyed on (partition, offset) plus atomic checkpoints.
+  A chaos test kills the pipeline mid-stream across 8 seeds and the final counts
+  match a clean run every time. The boundary that matters: the guarantee holds
+  to the sink's state, not to an external side effect (an email) unless that's
+  idempotent too. Also: watermarks catch a straggler (count 4) that a tight
+  watermark drops (count 3).
 
 - **Days 14–16** — a beaconing detector that flags NTP is worse than useless.
   Timing alone (coefficient of variation) caught all 8 C2 beacons but also all

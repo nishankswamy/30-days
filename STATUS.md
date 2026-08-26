@@ -1,8 +1,8 @@
 # Status
 
-_Last updated after Days 1–19._
+_Last updated after Days 1–22._
 
-Nineteen days shipped, seven projects complete. This file is the quick snapshot; each
+Twenty-two days shipped, eight projects complete. This file is the quick snapshot; each
 project's own README has the depth, and `PROGRESS.md` tracks the day grid.
 
 ## What's built
@@ -16,14 +16,15 @@ project's own README has the depth, and `PROGRESS.md` tracks the day grid.
 | 11–13 | Anomaly detection on telemetry | ✅ complete | 21 | `anomaly-detection` |
 | 14–16 | Network traffic analysis | ✅ complete | 39 | `network-traffic-analysis` |
 | 17–19 | Streaming pipeline (exactly-once) | ✅ complete | 32 | `streaming-pipeline` |
-| 20–22 | Privacy-preserving analytics | ⏭ next | — | — |
+| 20–22 | Privacy-preserving analytics | ✅ complete | 26 | `differential-privacy` |
+| 23–26 | CAPSTONE — Security data platform | ⏭ next | — | — |
 
 Everything after Day 7 is scoped in the folder READMEs but not started.
 
 ## The findings so far
 
 The point of the challenge is the third-day writeup — the result that
-contradicts what you assumed. Eight of those are now on the board, and they're
+contradicts what you assumed. Nine of those are now on the board, and they're
 the interview material:
 
 **Day 1 — a benchmark that lied.** The Redis cache reported a 678x speedup. It
@@ -93,9 +94,17 @@ clean run every time. The boundary that matters: the guarantee ends at the sink'
 state — an external side effect it triggers is still at-least-once unless made
 idempotent too.
 
+**Days 20–22 — anonymisation doesn't work, and the fix is a new definition.**
+Dropping names re-identified 60% of a synthetic medical release by joining a voter
+roll on (zip, birthdate, sex). k-anonymity stopped the linkage but leaked a whole
+oncology cohort's cancer status via the homogeneity hole — it protects identity,
+not the secret. Differential privacy is the actual answer; local DP measured 10-20x
+noisier than central, and DP without a spent-down budget is theatre because
+unbiased noise averages out.
+
 ## By the numbers
 
-- **741 tests** across the seven finished projects (66 + 493 + 36 + 54 + 21 + 39 + 32)
+- **767 tests** across the eight finished projects (66 + 493 + 36 + 54 + 21 + 39 + 32 + 26)
 - **~1,400 lines** in the cryptography project alone, across primitives, a
   vault, and three attacks
 - Every project ships with a benchmark or evaluation, not just "it works"
@@ -117,7 +126,8 @@ If `gh` isn't set up yet: `brew install gh && gh auth login` once.
 
 ## Next
 
-**Days 20–22 — privacy-preserving analytics.** Show k-anonymity fails by
-re-identifying a synthetic dataset, then implement differential privacy properly
-(Laplace/Gaussian mechanisms, sensitivity, a privacy budget). The finding to
-chase: what epsilon actually promises, and the utility cost of real privacy.
+**Days 23–26 — CAPSTONE: security data platform.** Assemble the security-track
+projects (detection engineering, anomaly detection, traffic analysis) into one
+platform: multi-source ingestion into the columnar store, continuous detection
+with dedup and ATT&CK mapping, and an investigation UI. The lead project for
+interviews.

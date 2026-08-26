@@ -9,7 +9,7 @@
 | 11–13 | Anomaly detection | ☑ done | anomaly-detection | autoencoder AP 0.249 > baseline 0.206; Isolation Forest 0.057 (worse) | Making a fair test of the multivariate/sustained cases |
 | 14–16 | Network traffic analysis | ☑ done | network-traffic-analysis | beaconing: 19%→100% precision after dropping NTP; timing can't catch a 443-mimicking beacon | Canonicalising the 5-tuple direction |
 | 17–19 | Streaming pipeline | ☑ done | streaming-pipeline | chaos test: 8 seeds, crash-and-recover output identical to clean run | Where exactly-once actually ends (the sink boundary) |
-| 20–22 | Differential privacy | ☐ | | | |
+| 20–22 | Differential privacy | ☑ done | differential-privacy | 60% re-identified; k-anon leaks a cohort's cancer; DP local 10-20x noisier than central | The randomised-response calibration trap (2e^ε+1 vs e^ε) |
 | 23–26 | CAPSTONE: security platform | ☐ | | | |
 | 27–29 | CAPSTONE: analytics platform | ☐ | | | |
 | 30 | Portfolio | ☐ | | | |
@@ -26,6 +26,16 @@
 
 Things that turned out differently from what you assumed. This becomes the
 Day 30 writeup, and most of your interview answers.
+
+- **Days 20–22** — anonymisation as usually practised doesn't work. Dropping
+  names re-identified 60% of a synthetic medical release via a voter-roll join
+  (Sweeney's attack). k-anonymity stopped the linkage but leaked a whole
+  oncology cohort's cancer status through the homogeneity hole — it protects
+  identity, not the secret. Differential privacy is the actual fix, and the
+  costs are measured: local DP is 10-20x noisier than central at equal epsilon,
+  and DP without a spent-down budget is theatre because unbiased noise averages
+  out. Caught a calibration trap: the truth-or-uniform randomised response gives
+  ratio 2e^ε+1, not e^ε — silently weaker privacy.
 
 - **Days 17–19** — "exactly-once" is a phrase for a specific arrangement, not a
   delivery guarantee. Built at-least-once first so the duplicate is visible

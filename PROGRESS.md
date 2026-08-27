@@ -10,16 +10,16 @@
 | 14–16 | Network traffic analysis | ☑ done | network-traffic-analysis | beaconing: 19%→100% precision after dropping NTP; timing can't catch a 443-mimicking beacon | Canonicalising the 5-tuple direction |
 | 17–19 | Streaming pipeline | ☑ done | streaming-pipeline | chaos test: 8 seeds, crash-and-recover output identical to clean run | Where exactly-once actually ends (the sink boundary) |
 | 20–22 | Differential privacy | ☑ done | differential-privacy | 60% re-identified; k-anon leaks a cohort's cancer; DP local 10-20x noisier than central | The randomised-response calibration trap (2e^ε+1 vs e^ε) |
-| 23–26 | CAPSTONE: security platform | ☑ done | siem-platform | full attack replay: 4/4 stages caught, 175k events/s, pivot 26x faster than scan | Keeping investigation entity-first, not query-first |
-| 27–29 | CAPSTONE: analytics platform | ☐ | | | |
-| 30 | Portfolio | ☐ | | | |
+| 23–26 | CAPSTONE: security platform | ☑ done+ | siem-capstone | full attack replay: 4/4 stages caught, 175k events/s, pivot 26x faster than scan; insider anomaly at 139σ | Keeping investigation entity-first, not query-first |
+| 27–29 | CAPSTONE: analytics platform | ☑ done | analytics-platform | cube vs scan 600x; fact table 530 B/row (dicts) vs 50 on disk — memory is the wall | Making quality gating fail loudly without dropping rows |
+| 30 | Portfolio | ☑ done | portfolio | 10 projects, 831 tests, CI everywhere, 10 findings | Distilling ten findings into a page worth hiring off |
 
 ## Days
 
 ```
- 1 ▓   2 ▓   3 ▓   4 ▓   5 ▓   6 ▓   7 ▓   8 ░   9 ░  10 ░
-11 ░  12 ░  13 ░  14 ▓  15 ▓  16 ▓  17 ▓  18 ▓  19 ▓  20 ░
-21 ░  22 ░  23 ▓  24 ▓  25 ▓  26 ▓  27 ▓  28 ▓  29 ▓  30 ░
+ 1 ▓   2 ▓   3 ▓   4 ▓   5 ▓   6 ▓   7 ▓   8 ▓   9 ▓  10 ▓
+11 ▓  12 ▓  13 ▓  14 ▓  15 ▓  16 ▓  17 ▓  18 ▓  19 ▓  20 ▓
+21 ▓  22 ▓  23 ▓  24 ▓  25 ▓  26 ▓  27 ▓  28 ▓  29 ▓  30 ▓
 ```
 
 ## Findings worth keeping
@@ -124,6 +124,8 @@ Tick when the project README has written answers, not just working code.
 - [x] Days 5–7 — detection
 - [x] Days 8–10 — columnar
 - [x] Days 11–13 — anomaly detection
-- [ ] Days 14–16 — traffic analysis
-- [ ] Days 17–19 — streaming
-- [ ] Days 20–22 — privacy
+- [x] Days 14–16 — traffic analysis
+- [x] Days 17–19 — streaming
+- [x] Days 20–22 — privacy
+- [x] Days 23–26 — SIEM capstone
+- [x] Days 27–29 — analytics capstone

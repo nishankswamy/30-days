@@ -23,7 +23,12 @@ app.
 | 20–22 | [Privacy-preserving analytics](day-20-22-differential-privacy) | security + analytics |
 | 23–26 | [CAPSTONE — Security data platform](day-23-26-siem-capstone) | capstone |
 | 27–29 | [CAPSTONE — Analytics platform](day-27-29-analytics-capstone) | capstone |
-| 30 | [Portfolio and writeup](day-30-portfolio) | capstone |
+| 30 | [Portfolio and writeup](day-30-portfolio) | capstone ✅ |
+
+**All 30 days done.** The portfolio pulls it together: a deployable
+[site](day-30-portfolio/src/index.html), the written
+[case studies and findings](day-30-portfolio/src/PORTFOLIO.md), and
+[resume bullets](day-30-portfolio/src/RESUME-BULLETS.md).
 
 Everything is defensive: detection, analysis, hardening, cryptography, privacy.
 Nothing here is offensive tooling, and the two places you attack something you

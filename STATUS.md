@@ -19,9 +19,10 @@ project's own README has the depth, and `PROGRESS.md` tracks the day grid.
 | 20–22 | Privacy-preserving analytics | ✅ complete | 26 | `differential-privacy` |
 | 23–26 | CAPSTONE — Security data platform | ✅ complete+ | 36 | `siem-capstone` |
 | 27–29 | CAPSTONE — Analytics platform | ✅ complete | 19 | `analytics-platform` |
-| 30 | Portfolio | ⏭ next | — | — |
+| 30 | Portfolio | ✅ shipped | — | `portfolio` |
 
-Everything after Day 7 is scoped in the folder READMEs but not started.
+All ten projects built, plus the Day 30 portfolio (deployable site, written case
+studies, resume bullets). The challenge is complete.
 
 ## The findings so far
 
@@ -144,9 +145,9 @@ git push                       # this index repo
 
 If `gh` isn't set up yet: `brew install gh && gh auth login` once.
 
-## Next
+## Done
 
-**Days 27–29 — CAPSTONE: analytics platform.** The analytics equivalent: ingest a
-real public dataset at inconvenient scale, incremental processing, data-quality
-checks that fail loudly, a dimensional model, and a self-serve query interface
-over the columnar engine. Then Day 30: the portfolio writeup.
+All 30 days shipped. The portfolio (Day 30) is the finish line — `day-30-portfolio/src/`
+has the deployable site (`index.html`), the written case studies and findings
+(`PORTFOLIO.md`), and role-split resume bullets (`RESUME-BULLETS.md`). Next step is
+purely mechanical: push every repo with `./scripts/push-all.sh`.

@@ -6,3 +6,4 @@ archive/
 .DS_Store
 __pycache__/
 node_modules/
+profile-readme/

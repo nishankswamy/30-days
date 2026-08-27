@@ -1,8 +1,8 @@
 # Status
 
-_Last updated after Days 1–26._
+_Last updated after Days 1–30 (all 10 projects built).__
 
-Twenty-six days shipped, nine projects complete (first capstone done). This file is the quick snapshot; each
+All 30 days built, ten projects complete. Plus CI on every repo, and two projects deepened past their original scope. This file is the quick snapshot; each
 project's own README has the depth, and `PROGRESS.md` tracks the day grid.
 
 ## What's built
@@ -14,11 +14,12 @@ project's own README has the depth, and `PROGRESS.md` tracks the day grid.
 | 5–7 | Detection engineering | ✅ complete | 36 | `detection-engineering` |
 | 8–10 | Columnar analytics engine | ✅ complete+ | 54 | `columnar-query-engine` |
 | 11–13 | Anomaly detection on telemetry | ✅ complete | 21 | `anomaly-detection` |
-| 14–16 | Network traffic analysis | ✅ complete | 39 | `network-traffic-analysis` |
+| 14–16 | Network traffic analysis | ✅ complete+ | 48 | `network-traffic-analysis` |
 | 17–19 | Streaming pipeline (exactly-once) | ✅ complete | 32 | `streaming-pipeline` |
 | 20–22 | Privacy-preserving analytics | ✅ complete | 26 | `differential-privacy` |
-| 23–26 | CAPSTONE — Security data platform | ✅ complete | 26 | `siem-platform` |
-| 27–29 | CAPSTONE — Analytics platform | ⏭ next | — | — |
+| 23–26 | CAPSTONE — Security data platform | ✅ complete+ | 36 | `siem-capstone` |
+| 27–29 | CAPSTONE — Analytics platform | ✅ complete | 19 | `analytics-platform` |
+| 30 | Portfolio | ⏭ next | — | — |
 
 Everything after Day 7 is scoped in the folder READMEs but not started.
 
@@ -107,12 +108,23 @@ unbiased noise averages out.
 a full attack campaign buried in 2,300 benign events is ingested and detected
 inline in 13ms (175k events/sec), all four stages caught. Firing alerts is the
 easy 20%; alert → entity → full timeline is one indexed lookup each, 26x faster
-than scanning, because the store keeps inverted entity indexes. Scoped honestly
-against Splunk: the right architecture at a size you can hold in your head.
+than scanning. Upgraded since: a behavioural detector catches a signature-less
+insider (139σ over its own baseline) that no rule would, and the timeline collapses
+runs of identical events. Scoped honestly against Splunk.
+
+**Days 27–29 (CAPSTONE) — what breaks at scale is memory, not compute.** An
+analytics pipeline: incremental quality-gated ingestion, a dimensional model with
+cubes, self-serve queries with a cost display. The fact table costs ~530 bytes/row
+as Python dicts vs ~50 on disk — a 10x blow-up that's the real wall, and the fix is
+the Days 8–10 columnar store (a clean callback). Cube-served queries stay flat at
+0.19ms while uncovered scans grow to 330ms, so the uncovered query sets worst-case
+latency. Quality gating fails loudly: error checks stop the load, warnings
+quarantine and report, never silently drop.
 
 ## By the numbers
 
-- **793 tests** across the nine finished projects (66 + 493 + 36 + 54 + 21 + 39 + 32 + 26 + 26)
+- **882 tests** across ten projects (66 + 493 + 36 + 54 + 21 + 48 + 32 + 26 + 36 + 19)
+- **CI (GitHub Actions)** runs the suite on every push in all 10 repos
 - **~1,400 lines** in the cryptography project alone, across primitives, a
   vault, and three attacks
 - Every project ships with a benchmark or evaluation, not just "it works"

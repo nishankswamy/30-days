@@ -123,7 +123,7 @@ quarantine and report, never silently drop.
 
 ## By the numbers
 
-- **882 tests** across ten projects (66 + 493 + 36 + 54 + 21 + 48 + 32 + 26 + 36 + 19)
+- **831 tests** across ten projects (66 + 493 + 36 + 54 + 21 + 48 + 32 + 26 + 36 + 19)
 - **CI (GitHub Actions)** runs the suite on every push in all 10 repos
 - **~1,400 lines** in the cryptography project alone, across primitives, a
   vault, and three attacks

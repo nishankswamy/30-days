@@ -34,11 +34,28 @@ for folder in "$ROOT"/day-*/; do
   fi
 done
 
-# The index repo
+# The profile-page repo (renders on github.com/nishankswamy)
+profile="$ROOT/profile-readme"
+if [ -d "$profile" ]; then
+  cd "$profile"
+  [ -d .git ] || { git init -q && git add -A && git commit -q -m "Profile README"; }
+  if git remote get-url origin >/dev/null 2>&1; then
+    git push -q origin HEAD && echo "✓ profile repo (nishankswamy) — pushed"
+  else
+    echo "→ profile — creating repo 'nishankswamy'"
+    gh repo create nishankswamy --public --source=. --remote=origin --push
+  fi
+fi
+
+# The index repo (renders as github.com/nishankswamy/30-days)
 cd "$ROOT"
 if git remote get-url origin >/dev/null 2>&1; then
-  git push -q origin HEAD 2>/dev/null && echo "✓ index repo — pushed" || echo "· index repo — up to date or needs -u"
+  git push -q origin HEAD 2>/dev/null && echo "✓ index repo (30-days) — pushed" || echo "· index repo — up to date"
+else
+  echo "→ index — creating repo '30-days'"
+  gh repo create 30-days --public --source=. --remote=origin --push
 fi
 
 echo
 echo "Done. Confirm with ./scripts/status.sh"
+echo "Next: enable GitHub Pages on the 'portfolio' repo (Settings → Pages → main / root)."

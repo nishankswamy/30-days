@@ -1,8 +1,8 @@
 # Status
 
-_Last updated after Days 1–22._
+_Last updated after Days 1–26._
 
-Twenty-two days shipped, eight projects complete. This file is the quick snapshot; each
+Twenty-six days shipped, nine projects complete (first capstone done). This file is the quick snapshot; each
 project's own README has the depth, and `PROGRESS.md` tracks the day grid.
 
 ## What's built
@@ -17,14 +17,15 @@ project's own README has the depth, and `PROGRESS.md` tracks the day grid.
 | 14–16 | Network traffic analysis | ✅ complete | 39 | `network-traffic-analysis` |
 | 17–19 | Streaming pipeline (exactly-once) | ✅ complete | 32 | `streaming-pipeline` |
 | 20–22 | Privacy-preserving analytics | ✅ complete | 26 | `differential-privacy` |
-| 23–26 | CAPSTONE — Security data platform | ⏭ next | — | — |
+| 23–26 | CAPSTONE — Security data platform | ✅ complete | 26 | `siem-platform` |
+| 27–29 | CAPSTONE — Analytics platform | ⏭ next | — | — |
 
 Everything after Day 7 is scoped in the folder READMEs but not started.
 
 ## The findings so far
 
 The point of the challenge is the third-day writeup — the result that
-contradicts what you assumed. Nine of those are now on the board, and they're
+contradicts what you assumed. Ten of those are now on the board, and they're
 the interview material:
 
 **Day 1 — a benchmark that lied.** The Redis cache reported a 678x speedup. It
@@ -102,9 +103,16 @@ not the secret. Differential privacy is the actual answer; local DP measured 10-
 noisier than central, and DP without a spent-down budget is theatre because
 unbiased noise averages out.
 
+**Days 23–26 (CAPSTONE) — the investigation layer is the product.** A working SIEM:
+a full attack campaign buried in 2,300 benign events is ingested and detected
+inline in 13ms (175k events/sec), all four stages caught. Firing alerts is the
+easy 20%; alert → entity → full timeline is one indexed lookup each, 26x faster
+than scanning, because the store keeps inverted entity indexes. Scoped honestly
+against Splunk: the right architecture at a size you can hold in your head.
+
 ## By the numbers
 
-- **767 tests** across the eight finished projects (66 + 493 + 36 + 54 + 21 + 39 + 32 + 26)
+- **793 tests** across the nine finished projects (66 + 493 + 36 + 54 + 21 + 39 + 32 + 26 + 26)
 - **~1,400 lines** in the cryptography project alone, across primitives, a
   vault, and three attacks
 - Every project ships with a benchmark or evaluation, not just "it works"
@@ -126,8 +134,7 @@ If `gh` isn't set up yet: `brew install gh && gh auth login` once.
 
 ## Next
 
-**Days 23–26 — CAPSTONE: security data platform.** Assemble the security-track
-projects (detection engineering, anomaly detection, traffic analysis) into one
-platform: multi-source ingestion into the columnar store, continuous detection
-with dedup and ATT&CK mapping, and an investigation UI. The lead project for
-interviews.
+**Days 27–29 — CAPSTONE: analytics platform.** The analytics equivalent: ingest a
+real public dataset at inconvenient scale, incremental processing, data-quality
+checks that fail loudly, a dimensional model, and a self-serve query interface
+over the columnar engine. Then Day 30: the portfolio writeup.

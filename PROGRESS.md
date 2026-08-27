@@ -10,7 +10,7 @@
 | 14–16 | Network traffic analysis | ☑ done | network-traffic-analysis | beaconing: 19%→100% precision after dropping NTP; timing can't catch a 443-mimicking beacon | Canonicalising the 5-tuple direction |
 | 17–19 | Streaming pipeline | ☑ done | streaming-pipeline | chaos test: 8 seeds, crash-and-recover output identical to clean run | Where exactly-once actually ends (the sink boundary) |
 | 20–22 | Differential privacy | ☑ done | differential-privacy | 60% re-identified; k-anon leaks a cohort's cancer; DP local 10-20x noisier than central | The randomised-response calibration trap (2e^ε+1 vs e^ε) |
-| 23–26 | CAPSTONE: security platform | ☐ | | | |
+| 23–26 | CAPSTONE: security platform | ☑ done | siem-platform | full attack replay: 4/4 stages caught, 175k events/s, pivot 26x faster than scan | Keeping investigation entity-first, not query-first |
 | 27–29 | CAPSTONE: analytics platform | ☐ | | | |
 | 30 | Portfolio | ☐ | | | |
 
@@ -19,13 +19,22 @@
 ```
  1 ▓   2 ▓   3 ▓   4 ▓   5 ▓   6 ▓   7 ▓   8 ░   9 ░  10 ░
 11 ░  12 ░  13 ░  14 ▓  15 ▓  16 ▓  17 ▓  18 ▓  19 ▓  20 ░
-21 ░  22 ░  23 ░  24 ░  25 ░  26 ░  27 ░  28 ░  29 ░  30 ░
+21 ░  22 ░  23 ▓  24 ▓  25 ▓  26 ▓  27 ░  28 ░  29 ░  30 ░
 ```
 
 ## Findings worth keeping
 
 Things that turned out differently from what you assumed. This becomes the
 Day 30 writeup, and most of your interview answers.
+
+- **Days 23–26 (CAPSTONE)** — a working SIEM assembling the security track. A
+  full attack campaign (recon → brute force → landed login → exfil) buried in
+  2,300 benign events is ingested and detected inline in 13ms (175k events/sec,
+  p99 13.6µs), all four stages caught. The finding: firing alerts is the easy
+  20%; the investigation layer is the 80% most tools skip. Alert → entity → full
+  timeline is one indexed lookup each, 26x faster than scanning, because the
+  store keeps inverted entity indexes. Scoped honestly against Splunk: the
+  correct architecture at a size you can hold in your head, not a feature match.
 
 - **Days 20–22** — anonymisation as usually practised doesn't work. Dropping
   names re-identified 60% of a synthetic medical release via a voter-roll join

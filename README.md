@@ -2,6 +2,8 @@
 
 **Security engineering and data analytics, at depth.**
 
+By Nishank Daulath · Portfolio: [nishankswamy.github.io](https://nishankswamy.github.io) · [LinkedIn](https://www.linkedin.com/in/nishank-swamy)
+
 > Current progress and the findings so far: [STATUS.md](STATUS.md).
 
 Ten projects across 30 days, most spanning three days. Fewer, harder things
